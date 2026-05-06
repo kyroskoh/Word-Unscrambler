@@ -10,6 +10,7 @@ A fast, interactive web app that finds every valid English word that can be form
 - **Animated UI** — smooth entry animations via Framer Motion
 - **Mobile-friendly** — responsive layout down to small phone screens
 - **2 000+ word dictionary** — common English words from 2 to 8 letters, baked in client-side (no network request needed)
+- **Zero external requests** — Inter font is self-hosted via `@fontsource/inter`; nothing is fetched from a CDN at runtime
 
 ## Getting Started
 
@@ -79,6 +80,7 @@ src/
 - **Radix UI** (accessible primitives)
 - **Framer Motion** (animations)
 - **TanStack React Query** (async state)
+- **@fontsource/inter** (self-hosted Inter font)
 
 ## Deployment
 

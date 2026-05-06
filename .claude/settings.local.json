@@ -10,7 +10,9 @@
       "Bash(Remove-Item \"C:\\\\Users\\\\k.koh\\\\Documents\\\\GitHub\\\\Word-Unscrambler\\\\src\\\\lib\\\\app-params.js\" -Force)",
       "Bash(Remove-Item \"C:\\\\Users\\\\k.koh\\\\Documents\\\\GitHub\\\\Word-Unscrambler\\\\src\\\\components\\\\ProtectedRoute.jsx\" -Force)",
       "Bash(Remove-Item \"C:\\\\Users\\\\k.koh\\\\Documents\\\\GitHub\\\\Word-Unscrambler\\\\src\\\\components\\\\UserNotRegisteredError.jsx\" -Force)",
-      "Bash(Remove-Item \"C:\\\\Users\\\\k.koh\\\\Documents\\\\GitHub\\\\Word-Unscrambler\\\\src\\\\api\" -Force -Recurse)"
+      "Bash(Remove-Item \"C:\\\\Users\\\\k.koh\\\\Documents\\\\GitHub\\\\Word-Unscrambler\\\\src\\\\api\" -Force -Recurse)",
+      "Bash(npm install *)",
+      "Bash(npm audit *)"
     ]
   }
 }

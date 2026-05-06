@@ -6,6 +6,22 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
+## [1.3.0] — 2026-05-06
+
+### Fixed
+
+- **Asset paths now relative (`./assets/…`)** — added `base: './'` to `vite.config.js`. Previously the default `base: '/'` produced absolute paths (e.g. `/assets/index.js`) which resolved to the drive root (`C:\assets\`) when opened outside an HTTP server, breaking the build output.
+- **Removed broken manifest link** — `index.html` referenced `/manifest.json` which never existed, causing a 404 on every page load.
+- **Self-hosted Inter font** — replaced the Google Fonts CDN `@import` in `index.css` with `@fontsource/inter` weight imports. Font files now bundle into `dist/assets/` so the app makes zero cross-origin requests at runtime.
+- **Removed `react-quill`** — the package was unused scaffolding and pulled in `quill ≤1.3.7` (moderate XSS, CVE tracked at GHSA-4943-9vgg-gr5r). Removing it brings the audit to 0 vulnerabilities.
+
+### Changed
+
+- Vite dev server CORS restricted to `localhost` / `127.0.0.1` origins with `credentials: true`, replacing the previous `cors: true` wildcard.
+- `server.host: true` retained so the dev server remains reachable on the local network for device testing.
+
+---
+
 ## [1.2.0] — 2026-05-06
 
 ### Changed
