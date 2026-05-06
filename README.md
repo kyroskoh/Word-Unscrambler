@@ -84,8 +84,22 @@ src/
 
 ## Deployment
 
-Build and serve the `dist/` folder with any static host (Netlify, Vercel, GitHub Pages, Cloudflare Pages, etc.):
+### GitHub Pages
+
+The repository includes a GitHub Actions workflow (`.github/workflows/jekyll-gh-pages.yml`) that builds and deploys automatically on every push to `main`. The live site is at:
+
+**https://kyroskoh.github.io/Word-Unscrambler/**
+
+Requirements for GitHub Pages:
+- Repo Settings → Pages → Source must be set to **GitHub Actions**
+- `public/.nojekyll` is present to prevent Jekyll from processing the Vite output
+
+The app uses `HashRouter` so routing works correctly under the `/Word-Unscrambler/` subdirectory (URLs appear as `https://kyroskoh.github.io/Word-Unscrambler/#/`).
+
+### Other static hosts
 
 ```bash
 npm run build
 ```
+
+Serve the `dist/` folder with any static host (Netlify, Vercel, Cloudflare Pages, etc.). For hosts that serve from the domain root, you can switch back to `BrowserRouter` in `src/App.jsx`.

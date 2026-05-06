@@ -6,6 +6,14 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
+## [1.5.0] — 2026-05-06
+
+### Fixed
+
+- **Switched `BrowserRouter` → `HashRouter`** (`src/App.jsx`) — when deployed to a GitHub Pages subdirectory (`/Word-Unscrambler/`), `BrowserRouter` received `/Word-Unscrambler/` as the pathname and found no matching route, rendering `PageNotFound` on every visit. `HashRouter` routes via the URL hash (`/#/`) which the server never sees, so the home route always matches regardless of the hosting subdirectory.
+
+---
+
 ## [1.4.0] — 2026-05-06
 
 ### Changed
