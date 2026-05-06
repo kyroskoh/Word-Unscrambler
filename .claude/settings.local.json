@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\k.koh\\\\Documents\\\\GitHub\\\\Word-Unscrambler\" -Recurse -Force)",
+      "Bash(Select-Object FullName)",
+      "Bash(Sort-Object FullName)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\k.koh\\\\Documents\\\\GitHub\\\\Word-Unscrambler\" -Recurse | ForEach-Object { $_.FullName })",
+      "WebSearch",
+      "Bash(Remove-Item \"C:\\\\Users\\\\k.koh\\\\Documents\\\\GitHub\\\\Word-Unscrambler\\\\src\\\\api\\\\base44Client.js\" -Force)",
+      "Bash(Remove-Item \"C:\\\\Users\\\\k.koh\\\\Documents\\\\GitHub\\\\Word-Unscrambler\\\\src\\\\lib\\\\app-params.js\" -Force)",
+      "Bash(Remove-Item \"C:\\\\Users\\\\k.koh\\\\Documents\\\\GitHub\\\\Word-Unscrambler\\\\src\\\\components\\\\ProtectedRoute.jsx\" -Force)",
+      "Bash(Remove-Item \"C:\\\\Users\\\\k.koh\\\\Documents\\\\GitHub\\\\Word-Unscrambler\\\\src\\\\components\\\\UserNotRegisteredError.jsx\" -Force)",
+      "Bash(Remove-Item \"C:\\\\Users\\\\k.koh\\\\Documents\\\\GitHub\\\\Word-Unscrambler\\\\src\\\\api\" -Force -Recurse)"
+    ]
+  }
+}
