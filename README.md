@@ -5,6 +5,7 @@ A fast, interactive web app that finds every valid English word that can be form
 ## Features
 
 - **Instant unscrambling** — enter up to 15 letters and find all valid words in milliseconds
+- **Three dictionary sources** — choose Built-in (2K words, offline), ENABLE (172K Scrabble words, CDN), or Datamuse (500K+ words, live API)
 - **Smart filtering** — narrow results by prefix, suffix, substring, required letter, or exact word length
 - **Grouped results** — words organised by letter count (longest first), each group colour-coded
 - **Animated UI** — smooth entry animations via Framer Motion

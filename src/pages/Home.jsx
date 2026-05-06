@@ -1,9 +1,10 @@
 import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Shuffle, X, Sparkles, BookOpen } from "lucide-react";
-import { findWords } from "@/lib/wordList";
+import { Shuffle, X, Sparkles, BookOpen, ExternalLink } from "lucide-react";
+import { findWords, DICTIONARIES } from "@/lib/dictionaryService";
 import WordCard from "@/components/WordCard";
 import FiltersPanel from "@/components/FiltersPanel";
+import DictionarySelector from "@/components/DictionarySelector";
 
 const EMPTY_FILTERS = {
   startsWith: "",
@@ -28,24 +29,43 @@ export default function Home() {
   const [input, setInput] = useState("");
   const [results, setResults] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [loadingMsg, setLoadingMsg] = useState("");
   const [filters, setFilters] = useState(EMPTY_FILTERS);
+  const [dictionary, setDictionary] = useState("builtin");
+  const [error, setError] = useState(null);
+  const [usedDictionary, setUsedDictionary] = useState("builtin");
   const inputRef = useRef(null);
 
-  const handleUnscramble = () => {
+  const handleUnscramble = async () => {
     if (!input.trim()) return;
     setIsLoading(true);
+    setError(null);
 
-    setTimeout(() => {
-      const words = findWords(input);
+    const dict = DICTIONARIES.find((d) => d.id === dictionary);
+    setLoadingMsg(
+      dict.isOnline
+        ? `Querying ${dict.name}…`
+        : "Finding words…"
+    );
+
+    try {
+      const words = await findWords(input, dictionary);
       setResults(words);
+      setUsedDictionary(dictionary);
+    } catch {
+      setError(`Could not reach ${dict.name}. Check your connection and try again.`);
+      setResults(null);
+    } finally {
       setIsLoading(false);
-    }, 300);
+      setLoadingMsg("");
+    }
   };
 
   const handleClear = () => {
     setInput("");
     setResults(null);
     setFilters(EMPTY_FILTERS);
+    setError(null);
     inputRef.current?.focus();
   };
 
@@ -58,8 +78,8 @@ export default function Home() {
     : [];
 
   const displayedWords = results ? applyFilters(results, filters) : [];
-
   const activeFilterCount = Object.values(filters).filter(Boolean).length;
+  const activeDictInfo = DICTIONARIES.find((d) => d.id === usedDictionary);
 
   return (
     <div className="min-h-screen bg-background flex flex-col items-center px-4 py-12">
@@ -130,13 +150,19 @@ export default function Home() {
           )}
         </div>
 
+        {/* Dictionary selector */}
+        <DictionarySelector value={dictionary} onChange={setDictionary} />
+
         <button
           onClick={handleUnscramble}
           disabled={!input.trim() || isLoading}
           className="mt-5 w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground font-semibold rounded-xl py-3.5 text-base transition-all hover:opacity-90 active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed shadow-md"
         >
           {isLoading ? (
-            <div className="w-5 h-5 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
+            <>
+              <div className="w-5 h-5 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
+              <span className="text-sm">{loadingMsg}</span>
+            </>
           ) : (
             <>
               <Sparkles className="w-4 h-4" />
@@ -146,7 +172,18 @@ export default function Home() {
         </button>
       </motion.div>
 
-      {/* Filters — always visible, collapsed by default */}
+      {/* Error state */}
+      {error && (
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="w-full max-w-xl mt-4 bg-destructive/10 border border-destructive/30 text-destructive rounded-2xl px-5 py-4 text-sm font-medium"
+        >
+          {error}
+        </motion.div>
+      )}
+
+      {/* Filters */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -180,6 +217,9 @@ export default function Home() {
                     ? "No words found"
                     : `${results.length} word${results.length !== 1 ? "s" : ""} found`}
                 </span>
+                <span className="text-xs text-muted-foreground bg-muted rounded-full px-2 py-0.5">
+                  {activeDictInfo?.name}
+                </span>
               </div>
               {results.length > 0 && activeFilterCount > 0 && (
                 <span className="text-xs text-muted-foreground">
@@ -195,7 +235,7 @@ export default function Home() {
                   No recognizable words could be made from these letters.
                 </p>
                 <p className="text-sm text-muted-foreground mt-1">
-                  Try a different set of letters.
+                  Try a different set of letters{usedDictionary === "builtin" ? " or switch to a larger dictionary" : ""}.
                 </p>
               </div>
             ) : displayedWords.length === 0 ? (
@@ -234,12 +274,28 @@ export default function Home() {
                   })}
               </div>
             )}
+
+            {/* Attribution for online dictionaries */}
+            {activeDictInfo?.attribution && (
+              <p className="mt-4 text-xs text-muted-foreground text-center">
+                Results via{" "}
+                <a
+                  href={activeDictInfo.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline underline-offset-2 hover:text-foreground inline-flex items-center gap-0.5"
+                >
+                  {activeDictInfo.attribution}
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              </p>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
 
       <p className="mt-12 text-xs text-muted-foreground text-center opacity-60">
-        Words validated against a standard English dictionary.
+        Choose a dictionary above to control coverage and speed.
       </p>
     </div>
   );

@@ -6,6 +6,23 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
+## [1.6.0] — 2026-05-06
+
+### Added
+
+- **Multi-dictionary support** — users can now choose between three word sources before clicking Unscramble:
+  - **Built-in** (default) — 2,000+ common words, instant offline lookup, no network required.
+  - **ENABLE** — 172,000+ Scrabble-valid words loaded once from a public CDN and cached for the session. Covers rare, technical, and archaic words missing from the built-in list.
+  - **Datamuse** — live queries against the [Datamuse API](https://www.datamuse.com/api/), which indexes 500,000+ words. For each unique starting letter × each valid word length, up to 1,000 candidates are fetched and filtered locally for letter availability.
+- **`src/lib/dictionaryService.js`** — new module encapsulating all three sources behind a single `async findWords(letters, dictionaryId)` function. ENABLE list is cached in-module after the first fetch; Datamuse requests are batched in groups of 6 to avoid overwhelming the API.
+- **`src/components/DictionarySelector.jsx`** — pill toggle showing Built-in / ENABLE / Datamuse with online/offline indicators and a description line for the active selection.
+- **Loading message** on the Unscramble button reflects the active source (e.g. "Querying Datamuse…") while async sources are fetching.
+- **Error banner** shown if an online source is unreachable.
+- **Attribution footer** below results for online sources, linking to the data provider.
+- **Dictionary badge** in the results stats bar shows which source produced the current results.
+
+---
+
 ## [1.5.0] — 2026-05-06
 
 ### Fixed
