@@ -22,7 +22,7 @@ A fast, interactive web app that finds every valid English word that can be form
 ### Installation
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/kyroskoh/Word-Unscrambler.git
 cd Word-Unscrambler
 npm install
 ```
