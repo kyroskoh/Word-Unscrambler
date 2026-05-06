@@ -8,10 +8,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [1.4.0] — 2026-05-06
 
-### Added
+### Changed
 
-- **GitHub Actions deployment** (`.github/workflows/deploy.yml`) — on every push to `main`, the workflow installs dependencies, runs `npm run build`, and deploys `dist/` to GitHub Pages via the official `actions/deploy-pages` action.
-- **`public/.nojekyll`** — prevents GitHub Pages from running Jekyll over the Vite output, which would mangle JS assets and skip files in `assets/`.
+- **Replaced Jekyll build with Vite build** in `.github/workflows/jekyll-gh-pages.yml`. The existing workflow was running `actions/jekyll-build-pages` against the raw source files — Jekyll has no knowledge of Vite or React, so no JS bundle was ever produced. The workflow now runs `npm ci` + `npm run build` and uploads `dist/` as the Pages artifact.
+- **`public/.nojekyll`** added — prevents any residual Jekyll processing on the deployed output.
 
 ---
 
