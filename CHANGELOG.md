@@ -6,6 +6,15 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
+## [1.4.0] — 2026-05-06
+
+### Added
+
+- **GitHub Actions deployment** (`.github/workflows/deploy.yml`) — on every push to `main`, the workflow installs dependencies, runs `npm run build`, and deploys `dist/` to GitHub Pages via the official `actions/deploy-pages` action.
+- **`public/.nojekyll`** — prevents GitHub Pages from running Jekyll over the Vite output, which would mangle JS assets and skip files in `assets/`.
+
+---
+
 ## [1.3.0] — 2026-05-06
 
 ### Fixed
